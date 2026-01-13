@@ -48,15 +48,6 @@ class Skips(SkipsBase):
     date: Mapped[Optional[str]] = mapped_column(String(34))
     warning: Mapped[bool]
 
-    def add_in(self):
-        with Session(engine) as session:
-            yo = Skips(
-                backoffice=False
-            )
-
-            session.add(yo)
-            session.commit()
-
 engine = create_engine('sqlite:///bot_DB.db')
 
 TeachersBase.metadata.create_all(engine)
