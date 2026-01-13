@@ -23,8 +23,8 @@ class Teachers(TeachersBase):
     t_id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(34))
     nickname: Mapped[Optional[str]] = mapped_column(String(34))
-    p_id: Mapped[str] = mapped_column(String(34))
-    tg_id: Mapped[int] = mapped_column(String(34))
+    p_id: Mapped[int]
+    tg_id: Mapped[int]
 
 class Groups(GroupsBase):
     __tablename__ = 'groups'
@@ -38,15 +38,24 @@ class Parents(ParentsBase):
     __tablename__ = 'parents'
     p_id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(34))
-    tg_id: Mapped[int] = mapped_column(String(34))
+    tg_id: Mapped[int]
 
 class Skips(SkipsBase):
     __tablename__ = 'skips'
     s_id: Mapped[int] = mapped_column(primary_key=True)
-    t_id: Mapped[int] = mapped_column(String(34))
-    backoffice: Mapped[bool] = mapped_column(String(34))
+    t_id: Mapped[int]
+    backoffice: Mapped[bool]
     date: Mapped[Optional[str]] = mapped_column(String(34))
-    warning: Mapped[bool] = mapped_column(String(34))
+    warning: Mapped[bool]
+
+    def add_in(self):
+        with Session(engine) as session:
+            yo = Skips(
+                backoffice=False
+            )
+
+            session.add(yo)
+            session.commit()
 
 engine = create_engine('sqlite:///bot_DB.db')
 
